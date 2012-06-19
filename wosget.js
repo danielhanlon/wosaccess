@@ -2,6 +2,12 @@ var sys = require('sys');
 var http = require('http');
 var pg=require('pg');
 
+//Function calling itself recursively as it traverses the path
+//res=response object to return oid
+//client=postgres connection
+//path=array of path elements
+//handle="current" directory
+//index="current" element index
 function traverse(res, client, path, handle, index){
   console.log(path);
   var sql;
@@ -40,6 +46,8 @@ http.createServer(function (req, res) {
     if(err){
       console.log(err);
     } else {
+      //traverse the directory structure assuming the filesystem root
+      //has handleidparent==1
       traverse(res, client, req.url.split('/'), 1, 1);
     }
   });
